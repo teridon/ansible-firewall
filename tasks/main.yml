@@ -1,0 +1,5 @@
+---
+# tasks file for firewall_test
+  - debug:  var=firewall_rules_services
+  - debug:  var=firewall_rules_ports
+  - debug:  var=firewall_rules_rich

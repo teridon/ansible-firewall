@@ -1,0 +1,27 @@
+---
+
+# make rules cumulative across groups and hosts, see
+# https://witchychant.com/ansible-cumulative-inventory-variables/
+# ********  NOTE: REQUIRES PYTHON3 ***************
+firewall_rules_services: "{{ q('vars', *q('varnames', '^firewall_rules_services_')) | flatten }}"
+firewall_rules_ports: "{{ q('vars', *q('varnames', '^firewall_rules_ports_')) | flatten }}"
+firewall_rules_rich: "{{ q('vars', *q('varnames', '^firewall_rules_rich_')) | flatten }}"
+
+firewall_rules_services_all:
+  - name: services_all_sshd
+    zone: internal
+    service: ssh
+    state: enabled
+    permanent: yes
+firewall_rules_ports_all:
+  - name: ports_all_foo
+    zone: internal
+    port: 9999/tcp
+    state: enabled
+    permanent: yes
+firewall_rules_rich_all:
+  - name: allow foo service from anywhere
+    zone: public
+    rich_rule: rule family="ipv4" port port="22443" protocol="tcp" accept
+    state: enabled
+    permanent: yes
