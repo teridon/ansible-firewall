@@ -1,4 +1,4 @@
-Role Name
+ansible-firewall
 =========
 
 I want to use the ansible firewalld module to manage my firewall rules on my Redhat guests.  But managing guests in multiple groups was problematic because ansible does not merge dicts easily.  I did not want to change the global behavior for several reasons.  This is based on code from https://witchychant.com/ansible-cumulative-inventory-variables/
