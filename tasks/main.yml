@@ -1,5 +1,52 @@
 ---
-# tasks file for firewall_test
-  - debug:  var=firewall_rules_services
-  - debug:  var=firewall_rules_ports
-  - debug:  var=firewall_rules_rich
+  - name: debug block
+    block:
+      - debug: var=firewall_rules_services
+      - debug: var=firewall_rules_ports
+      - debug: var=firewall_rules_rich
+      - meta: end_play
+    when: 
+      - debug_firewall_role | bool 
+
+  - name: Firewall - services
+    firewalld:
+      zone: "{{ rule.zone }}"
+      service: "{{ rule.service }}"
+      state: "{{ rule.state }}"
+      permanent: "{{ rule.permanent }}"
+    loop: '{{ firewall_rules_services }}'
+    loop_control:
+      loop_var: rule
+    notify: reload firewall
+    tags:
+      - service_rules
+    when: (firewall_rules_services is defined)
+
+  - name: Firewall - ports
+    firewalld:
+      zone: "{{ rule.zone }}"
+      port: "{{ rule.port }}"
+      state: "{{ rule.state }}"
+      permanent: "{{ rule.permanent }}"
+    loop: '{{ firewall_rules_ports }}'
+    loop_control:
+      loop_var: rule
+    notify: reload firewall
+    tags:
+      - port_rules
+    when: (firewall_rules_ports is defined)
+
+  - name: Firewall - rich
+    firewalld:
+      zone: "{{ rule.zone }}"
+      rich_rule: "{{ rule.rich_rule }}"
+      state: "{{ rule.state }}"
+      permanent: "{{ rule.permanent }}"
+    loop: '{{ firewall_rules_rich }}'
+    loop_control:
+      loop_var: rule
+    notify: reload firewall
+    tags:
+      - rich_rules
+    when: (firewall_rules_rich is defined)
+

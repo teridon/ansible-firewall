@@ -1,4 +1,7 @@
 ---
+# if you set debug_firewall_role to true, the role will ONLY
+# output some debug on variables, then exit
+debug_firewall_role: false
 
 # make rules cumulative across groups and hosts, see
 # https://witchychant.com/ansible-cumulative-inventory-variables/
@@ -20,7 +23,7 @@ firewall_rules_ports_all:
     state: enabled
     permanent: yes
 firewall_rules_rich_all:
-  - name: allow foo service from anywhere
+  - name: allow 22443/tcp from anywhere
     zone: public
     rich_rule: rule family="ipv4" port port="22443" protocol="tcp" accept
     state: enabled
