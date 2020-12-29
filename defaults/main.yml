@@ -5,7 +5,6 @@ debug_firewall_role: false
 
 # make rules cumulative across groups and hosts, see
 # https://witchychant.com/ansible-cumulative-inventory-variables/
-# ********  NOTE: REQUIRES PYTHON3 ***************
 firewall_rules_services: "{{ q('vars', *q('varnames', '^firewall_rules_services_')) | flatten }}"
 firewall_rules_ports: "{{ q('vars', *q('varnames', '^firewall_rules_ports_')) | flatten }}"
 firewall_rules_rich: "{{ q('vars', *q('varnames', '^firewall_rules_rich_')) | flatten }}"
